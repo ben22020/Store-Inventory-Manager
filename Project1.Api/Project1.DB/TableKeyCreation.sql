@@ -1,0 +1,55 @@
+CREATE TABLE Customer
+(
+    custID INT IDENTITY PRIMARY KEY,
+    firstName VARCHAR(100) NOT NULL,
+    lastName VARCHAR(100) NOT NULL,
+
+)
+
+CREATE TABLE Location
+(
+    LocationID INT IDENTITY PRIMARY KEY,
+    LocationName VARCHAR(100) UNIQUE NOT NULL,
+
+)
+
+CREATE TABLE LocationInventory
+(
+    LocationID INT NOT NULL,
+    ProductID Int NOT NULL,
+    Stock INT NOT NULL,
+)
+
+CREATE TABLE Product
+(
+    ProductID INT IDENTITY PRIMARY KEY,
+    ProductName VARCHAR(250) NOT NULL,
+
+)
+
+CREATE TABLE Invoice
+(
+    OrderID INT IDENTITY PRIMARY KEY NOT NULL,
+    CustomerID INT NOT NULL,
+    LocationID INT NOT NULL,
+    OrderDate DATETIME NOT NULL,
+)
+
+CREATE TABLE InvoiceLine
+(
+    OrderLineID INT IDENTITY PRIMARY KEY NOT NULL,
+    OrderID INT NOT NULL,
+    ProductID INT NOT NULL,
+    Quantity INT NOT NULL,
+)
+
+SELECT * FROM CUSTOMER
+
+ALTER TABLE InvoiceLine ADD FOREIGN KEY (OrderID) REFERENCES Invoice(OrderID);
+ALTER TABLE InvoiceLine ADD FOREIGN KEY (ProductID) REFERENCES Product(ProductID);
+
+ALTER TABLE Invoice ADD FOREIGN KEY (CustomerID) REFERENCES Customer(CustID);
+ALTER TABLE Invoice ADD FOREIGN KEY (LocationID) REFERENCES Location(LocationID);
+
+ALTER TABLE LocationInventory ADD FOREIGN KEY (LocationID) REFERENCES Location(LocationID);
+ALTER TABLE LocationInventory ADD FOREIGN KEY (ProductID) REFERENCES Product(ProductID);
